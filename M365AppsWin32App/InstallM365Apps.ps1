@@ -23,6 +23,7 @@
         1.1.0 - (2022-25-10) Added support for External URL as parameter 
         1.2.0 - (2022-23-11) Moved from ODT download to Evergreen url for setup.exe 
         1.2.1 - (2022-01-12) Adding function to validate signing on downloaded setup.exe
+        1.3.0 - (2023-10-18) Udating for CSOKI Intune use
 #>
 #region parameters
 [CmdletBinding()]
@@ -46,7 +47,13 @@ function Write-LogEntry {
         [string]$FileName = $LogFileName
     )
     # Determine log file location
-    $LogFilePath = Join-Path -Path $env:SystemRoot -ChildPath $("Temp\$FileName")
+    #$LogFilePath = Join-Path -Path $env:SystemRoot -ChildPath $("Temp\$FileName")
+    $csLogPath = Join-Path -Path $Env:PROGRAMDATA -ChildPath "!SUPPORT\_LogFiles"
+    $LogFilePath = Join-Path -Path $csLogPath -ChildPath $FileName
+    
+    if (!(Test-Path -Path $csLogPath)) {
+        New-Item -Path $csLogPath -ItemType Directory -Force | Out-Null
+    }
 	
     # Construct time stamp for log entry
     $Time = -join @((Get-Date -Format "HH:mm:ss.fff"), " ", (Get-WmiObject -Class Win32_TimeZone | Select-Object -ExpandProperty Bias))
