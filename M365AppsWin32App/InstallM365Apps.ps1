@@ -23,7 +23,7 @@
         1.1.0 - (2022-25-10) Added support for External URL as parameter 
         1.2.0 - (2022-23-11) Moved from ODT download to Evergreen url for setup.exe 
         1.2.1 - (2022-01-12) Adding function to validate signing on downloaded setup.exe
-        1.3.0 - (2023-10-18) Udating for CSOKI Intune use
+        1.3.0 - (2023-10-18) Updating for CSOKI Intune use
 #>
 #region parameters
 [CmdletBinding()]
@@ -213,7 +213,7 @@ try {
                 Try {
                     #Running office installer
                     Write-LogEntry -Value "Starting M365 Apps Install with Win32App method" -Severity 1
-                    $OfficeInstall = Start-Process $SetupFilePath -ArgumentList "/configure $($SetupFolder)\configuration.xml" -Wait -PassThru -ErrorAction Stop
+                    $OfficeInstall = Start-Process $SetupFilePath -ArgumentList "/configure $($SetupFolder)\configuration.xml" -Wait -WindowStyle Hidden -PassThru -ErrorAction Stop
                 }
                 catch [System.Exception] {
                     Write-LogEntry -Value  "Error running the M365 Apps install. Errormessage: $($_.Exception.Message)" -Severity 3
